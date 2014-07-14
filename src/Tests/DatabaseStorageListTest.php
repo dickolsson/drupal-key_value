@@ -2,20 +2,17 @@
 
 namespace Drupal\key_value\Tests;
 
+/**
+ * Tests the list key-value database storage.
+ *
+ * @group key_value
+ */
 class DatabaseStorageListTest extends DatabaseStorageSortedTestBase {
 
   /**
    * @var \Drupal\key_value_list\KeyValueStore\KeyValueStoreListInterface
    */
   protected $store;
-
-  public static function getInfo() {
-    return array(
-      'name' => 'List database storage',
-      'description' => 'Tests the list key-value database storage.',
-      'group' => 'Key-value Extensions',
-    );
-  }
 
   public function setUp() {
     parent::setUp();

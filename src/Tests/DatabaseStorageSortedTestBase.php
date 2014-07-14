@@ -5,7 +5,7 @@ namespace Drupal\key_value\Tests;
 use Drupal\Component\Utility\String;
 use Drupal\simpletest\DrupalUnitTestBase;
 
-class DatabaseStorageSortedTestBase extends DrupalUnitTestBase {
+abstract class DatabaseStorageSortedTestBase extends DrupalUnitTestBase {
 
   static public $modules = array('serialization', 'key_value');
 
