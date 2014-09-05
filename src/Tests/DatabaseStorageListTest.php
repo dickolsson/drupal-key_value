@@ -10,7 +10,7 @@ namespace Drupal\key_value\Tests;
 class DatabaseStorageListTest extends DatabaseStorageSortedTestBase {
 
   /**
-   * @var \Drupal\key_value_list\KeyValueStore\KeyValueStoreListInterface
+   * @var \Drupal\key_value\KeyValueStore\KeyValueStoreListInterface
    */
   protected $store;
 
