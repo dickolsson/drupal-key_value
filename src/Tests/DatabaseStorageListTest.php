@@ -20,17 +20,17 @@ class DatabaseStorageListTest extends DatabaseStorageSortedTestBase {
   }
 
   public function testCalls() {
-    $value0 = $this->randomName();
+    $value0 = $this->randomMachineName();
     $key = $this->store->push($value0);
     $this->assertPairs(array(0 => $value0));
 
-    $value1 = $this->randomName();
+    $value1 = $this->randomMachineName();
     $key = $this->store->push($value1);
     $this->assertPairs(array(1 => $value1));
 
-    $value2 = $this->randomName();
-    $value3 = $this->randomName();
-    $value4 = $this->randomName();
+    $value2 = $this->randomMachineName();
+    $value3 = $this->randomMachineName();
+    $value4 = $this->randomMachineName();
     $keys = $this->store->pushMultiple(array($value2, $value3, $value4));
     $this->assertPairs(array(2 => $value2, 3 => $value3, 4 => $value4));
 
@@ -40,7 +40,7 @@ class DatabaseStorageListTest extends DatabaseStorageSortedTestBase {
     $value = $this->store->getRange(2, 4);
     $this->assertIdentical($value, array($value2, $value3, $value4));
 
-    $new3 = $this->randomName();
+    $new3 = $this->randomMachineName();
     $this->store->set(3, $new3);
     $this->assertPairs(array(3 => $new3));
 

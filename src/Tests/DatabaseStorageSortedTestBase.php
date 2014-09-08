@@ -28,7 +28,7 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
     parent::setUp();
     $this->installSchema('key_value', array('key_value_sorted'));
 
-    $this->collection = $this->randomName();
+    $this->collection = $this->randomMachineName();
     $this->serializer = \Drupal::service('serialization.phpserialize');
     $this->connection = \Drupal::service('database');
   }
@@ -56,18 +56,5 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
       ->execute()
       ->fetchField();
     $this->assertEqual($count, $expected, $message ? $message : String::format('There are !count records.', array('!count' => $expected)));
-  }
-
-  /**
-   * Helper function to generate random names.
-   */
-  protected function randomName($length = 8) {
-    $values = array_merge(range(65, 90), range(97, 122), range(48, 57));
-    $max = count($values) - 1;
-    $str = chr(mt_rand(97, 122));
-    for ($i = 1; $i < $length; $i++) {
-      $str .= chr($values[mt_rand(0, $max)]);
-    }
-    return $str;
   }
 }
