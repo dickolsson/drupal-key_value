@@ -3,9 +3,9 @@
 namespace Drupal\key_value\Tests;
 
 use Drupal\Component\Utility\String;
-use Drupal\simpletest\DrupalUnitTestBase;
+use Drupal\simpletest\KernelTestBase;
 
-abstract class DatabaseStorageSortedTestBase extends DrupalUnitTestBase {
+abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
 
   static public $modules = array('serialization', 'key_value');
 
@@ -28,7 +28,7 @@ abstract class DatabaseStorageSortedTestBase extends DrupalUnitTestBase {
     parent::setUp();
     $this->installSchema('key_value', array('key_value_sorted'));
 
-    $this->collection = $this->randomName();
+    $this->collection = $this->randomMachineName();
     $this->serializer = \Drupal::service('serialization.phpserialize');
     $this->connection = \Drupal::service('database');
   }

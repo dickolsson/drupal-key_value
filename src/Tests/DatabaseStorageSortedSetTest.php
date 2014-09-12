@@ -10,7 +10,7 @@ namespace Drupal\key_value\Tests;
 class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
 
   /**
-   * @var \Drupal\key_value_list\KeyValueStore\KeyValueStoreListInterface
+   * @var \Drupal\key_value\KeyValueStore\KeyValueStoreListInterface
    */
   protected $store;
 
@@ -21,20 +21,20 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
 
   public function testCalls() {
     $key0 = (string) microtime(TRUE);
-    $value0 = $this->randomName();
+    $value0 = $this->randomMachineName();
     $this->store->add($key0, $value0);
     $this->assertPairs(array($key0 => $value0));
 
     $key1 = (string) microtime(TRUE);
-    $value1 = $this->randomName();
+    $value1 = $this->randomMachineName();
     $this->store->add($key1, $value1);
     $this->assertPairs(array($key1 => $value1));
 
     // Ensure it works to add sets with the same score.
     $key2 = (string) microtime(TRUE);
-    $value2 = $this->randomName();
-    $value3 = $this->randomName();
-    $value4 = $this->randomName();
+    $value2 = $this->randomMachineName();
+    $value3 = $this->randomMachineName();
+    $value4 = $this->randomMachineName();
     $this->store->addMultiple(array(
       array($key2 => $value2),
       array($key2 => $value3),

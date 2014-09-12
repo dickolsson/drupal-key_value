@@ -10,7 +10,7 @@ interface KeyValueListFactoryInterface {
   /**
    * @param string $collection
    *
-   * @return \Drupal\key_value_list\KeyValueStore\KeyValueStoreListInterface
+   * @return \Drupal\key_value\KeyValueStore\KeyValueStoreListInterface
    */
   public function get($collection);
 
