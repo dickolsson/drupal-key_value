@@ -17,7 +17,7 @@ function key_value_schema() {
       // KEY is an SQL reserved word, so use 'name' as the key's field name.
       'name' => array(
         'description' => 'The index or score key for the value.',
-        'type' => 'float',
+        'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
         'size' => 'big',
