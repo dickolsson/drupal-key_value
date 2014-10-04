@@ -20,18 +20,18 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
   }
 
   public function testCalls() {
-    $key0 = (string) microtime(TRUE);
+    $key0 = $this->newKey();
     $value0 = $this->randomMachineName();
     $this->store->add($key0, $value0);
     $this->assertPairs(array($key0 => $value0));
 
-    $key1 = (string) microtime(TRUE);
+    $key1 = $this->newKey();
     $value1 = $this->randomMachineName();
     $this->store->add($key1, $value1);
     $this->assertPairs(array($key1 => $value1));
 
     // Ensure it works to add sets with the same score.
-    $key2 = (string) microtime(TRUE);
+    $key2 = $this->newKey();
     $value2 = $this->randomMachineName();
     $value3 = $this->randomMachineName();
     $value4 = $this->randomMachineName();
@@ -47,7 +47,7 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
     $value = $this->store->getRange($key1, $key2);
     $this->assertIdentical($value, array($value1, $value2, $value3, $value4));
 
-    $new1 = (string) microtime(TRUE);
+    $new1 = $this->newKey();
     $this->store->add($new1, $value1);
 
     $value = $this->store->getRange($new1, $new1);

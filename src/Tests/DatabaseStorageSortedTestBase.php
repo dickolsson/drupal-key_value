@@ -20,6 +20,11 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
   protected $serializer;
 
   /**
+   * @var \Drupal\multiversion\MultiversionManagerInterface
+   */
+  protected $multiversionManager;
+
+  /**
    * @var \Drupal\Core\Database\Connection
    */
   protected $connection;
@@ -56,5 +61,9 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
       ->execute()
       ->fetchField();
     $this->assertEqual($count, $expected, $message ? $message : String::format('There are !count records.', array('!count' => $expected)));
+  }
+
+  public function newKey() {
+    return (int) (microtime(TRUE) * 1000000);
   }
 }
