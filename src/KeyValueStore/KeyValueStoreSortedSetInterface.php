@@ -21,4 +21,14 @@ interface KeyValueStoreSortedSetInterface extends KeyValueStoreSortedInterface {
    */
   public function deleteRange($start, $stop);
 
+  /**
+   * @return float
+   */
+  public function getMaxScore();
+
+  /**
+   * @return float
+   */
+  public function getMinScore();
+
 }
