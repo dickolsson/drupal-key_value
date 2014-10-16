@@ -17,9 +17,4 @@ interface KeyValueStoreSortedInterface {
    */
   public function getRange($start, $stop = NULL);
 
-  /**
-   * @return float
-   */
-  public function getLastSequenceId();
-
 }

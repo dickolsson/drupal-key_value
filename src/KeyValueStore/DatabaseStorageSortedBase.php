@@ -65,19 +65,4 @@ abstract class DatabaseStorageSortedBase implements KeyValueStoreSortedInterface
     }
     return $values;
   }
-
-  public function getLastSequenceId() {
-    $result = $this->connection->select($this->table, 't')
-      ->fields('t', array('value'))
-      ->condition('collection', $this->collection)
-      ->execute();
-
-    $values = array();
-    foreach ($result as $item) {
-      $values[] = $this->serializer->decode($item->value);
-    }
-    $last_value = array_pop($values);
-
-    return $last_value['local_seq'];
-  }
 }

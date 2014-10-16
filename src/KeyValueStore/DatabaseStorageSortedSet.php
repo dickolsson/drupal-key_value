@@ -51,4 +51,17 @@ class DatabaseStorageSortedSet extends DatabaseStorageSortedBase implements KeyV
       ->fetchField();
   }
 
+  public function getMaxScore() {
+    $query = $this->connection->select($this->table);
+    $query->condition('collection', $this->collection, '=');
+    $query->addExpression('MAX(name)');
+    return $query->execute()->fetchField();
+  }
+
+  public function getMinScore() {
+    $query = $this->connection->select($this->table);
+    $query->condition('collection', $this->collection, '=');
+    $query->addExpression('MIN(name)');
+    return $query->execute()->fetchField();
+  }
 }
