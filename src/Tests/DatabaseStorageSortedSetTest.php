@@ -56,5 +56,11 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
 
     $value = $this->store->getRange($key1, $key1);
     $this->assertIdentical($value, array(), 'Non-existing range returned empty array.');
+
+    $max_score = $this->store->getMaxScore();
+    $this->assertEqual($max_score, $new1, 'The getMaxScore method returned correct score.');
+
+    $min_score = $this->store->getMinScore();
+    $this->assertEqual($min_score, $key0, 'The getMinScore method returned correct score.');
   }
 }
