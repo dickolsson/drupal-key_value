@@ -2,7 +2,7 @@
 
 namespace Drupal\key_value\Tests;
 
-use Drupal\Component\Utility\String;
+use Drupal\Component\Utility\SafeMarkup;
 use Drupal\simpletest\KernelTestBase;
 
 abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
@@ -47,9 +47,9 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
       ->fetchAllAssoc('name');
 
     $expected_count = count($expected_pairs);
-    $this->assertIdentical(count($result), $expected_count, String::format('Query affected !count records.', array('!count' => $expected_count)));
+    $this->assertIdentical(count($result), $expected_count, SafeMarkup::format('Query affected !count records.', array('!count' => $expected_count)));
     foreach ($expected_pairs as $key => $value) {
-      $this->assertIdentical($this->serializer->decode($result[$key]->value), $value, String::format('Key !key have value !value', array('!key' => $key, '!value' => $value)));
+      $this->assertIdentical($this->serializer->decode($result[$key]->value), $value, SafeMarkup::format('Key !key have value !value', array('!key' => $key, '!value' => $value)));
     }
   }
 
@@ -60,7 +60,7 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
       ->countQuery()
       ->execute()
       ->fetchField();
-    $this->assertEqual($count, $expected, $message ? $message : String::format('There are !count records.', array('!count' => $expected)));
+    $this->assertEqual($count, $expected, $message ? $message : SafeMarkup::format('There are !count records.', array('!count' => $expected)));
   }
 
   public function newKey() {
