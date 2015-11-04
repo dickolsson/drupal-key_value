@@ -52,7 +52,7 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
 
     $value = $this->store->getRange($new1, $new1);
     $this->assertIdentical($value, array($value1), 'Member was successfully updated.');
-    $this->assertCount(5, 'Correct number of record in the collection after member update.');
+    $this->assertRecords(5, 'Correct number of record in the collection after member update.');
 
     $value = $this->store->getRange($key1, $key1);
     $this->assertIdentical($value, array(), 'Non-existing range returned empty array.');
