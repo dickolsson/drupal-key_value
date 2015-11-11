@@ -24,6 +24,7 @@ cache:
 
 install:
   # Install web server.
+  - echo "cgi.fix_pathinfo = 0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - if [[ "$TRAVIS_PHP_VERSION" = "7.0" ]]; then cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf; fi
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
