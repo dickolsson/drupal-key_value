@@ -36,9 +36,7 @@ install:
   - php ~/drush.phar --root=$HOME/www --yes pm-enable key_value
 
 script:
-  # Enable Simpletest and run Simpletest tests.
-  - cd ~/www
-  - php ./core/scripts/run-tests.sh --verbose --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "key_value" | tee /tmp/test.log ; export TEST_EXIT=${PIPESTATUS[0]}
+  - php ~/www/core/scripts/run-tests.sh --verbose --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "key_value" | tee /tmp/test.log ; export TEST_EXIT=${PIPESTATUS[0]}
   # Simpletest does not exit with code 0 on success, so we will need to analyze
   # the output to ascertain whether the tests passed.
   - TEST_SIMPLETEST=$(! egrep -i "([0-9]+ fails)|(PHP Fatal error)|([0-9]+ exceptions)" /tmp/test.log > /dev/null)$?
