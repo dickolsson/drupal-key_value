@@ -33,11 +33,9 @@ install:
   - test ! -f ~/www/index.php && git clone --depth 1 --branch 8.0.x http://git.drupal.org/project/drupal.git ~/www || true
   - ln -s $TRAVIS_BUILD_DIR ~/www/modules/key_value
   - php -d sendmail_path=`which true` ~/drush.phar --root=$HOME/www --yes site-install --db-url=mysql://root:@127.0.0.1/drupal testing
-  - php ~/drush.phar --root=$HOME/www --yes pm-enable key_value
 
 script:
-  - php ~/www/core/scripts/run-tests.sh --verbose --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "key_value" | tee /tmp/test.log ; export TEST_EXIT=${PIPESTATUS[0]}
-  # Simpletest does not exit with code 0 on success, so we will need to analyze
-  # the output to ascertain whether the tests passed.
-  - TEST_SIMPLETEST=$(! egrep -i "([0-9]+ fails)|(PHP Fatal error)|([0-9]+ exceptions)" /tmp/test.log > /dev/null)$?
-  - if [ $TEST_EXIT -eq 0 ] && [ $TEST_SIMPLETEST -eq 0 ]; then exit 0; else exit 1; fi
+  - cd ~/www && php ./core/scripts/run-tests.sh --verbose --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "key_value" | tee /tmp/test.log ; export TEST_EXIT=${PIPESTATUS[0]}
+  # Workaround so that we exit with the correct status.
+  - TEST_LOG=$(! egrep -i "([0-9]+ fails)|(PHP Fatal error)|([0-9]+ exceptions)" /tmp/test.log > /dev/null)$?
+  - if [ $TEST_EXIT -eq 0 ] && [ $TEST_LOG -eq 0 ]; then exit 0; else exit 1; fi
