@@ -22,11 +22,6 @@ cache:
   directories:
   - $HOME/.drush/cache/download
 
-before_cache:
-  - rm -rf $HOME/www/modules/*
-  - find $HOME/www/sites/*/settings.php -exec rm -f {} \;
-  - find $HOME/www/sites/*/files/* -exec rm -rf {} \;
-
 before_install:
   - cp $TRAVIS_BUILD_DIR/.travis/php.ini ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/
   - cp $TRAVIS_BUILD_DIR/.travis/php-fpm.conf ~/.phpenv/versions/$(phpenv version-name)/etc/
