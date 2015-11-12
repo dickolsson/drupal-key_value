@@ -37,7 +37,7 @@ install:
   - test ! -d ~/www/core && git clone --depth 1 --branch 8.0.x http://git.drupal.org/project/drupal.git ~/www || true
   - ln -s $TRAVIS_BUILD_DIR ~/www/modules/key_value
   # Import the site from cache or install it.
-  - if [ -f ~/.drush/si.sql ]; then mysql -uroot < ~/.drush/si.sql; else php ~/drush.phar -r=$HOME/www -y si --db-url=mysql://root:@127.0.0.1/drupal testing && mysqldump -uroot -A > ~/.drush/si.sql; fi
+  - if [ -f ~/.drush/si.sql ]; then mysql -uroot < ~/.drush/si.sql; else php ~/drush.phar --root=$HOME/www --yes site-install --db-url=mysql://root:@127.0.0.1/drupal testing && mysqldump -uroot -A > ~/.drush/si.sql; fi
 
 script:
   - cd ~/www && php ./core/scripts/run-tests.sh --verbose --keep-results --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "key_value" | tee /tmp/test.log ; export STATUS_SCRIPT=${PIPESTATUS[0]}
