@@ -1,3 +1,6 @@
+env:
+  - PROJECT=key_value
+
 sudo: false
 
 language: php
@@ -7,10 +10,8 @@ php:
   - 5.6
   - 7.0
 
-mysql:
-  database: drupal
-  username: root
-  encoding: utf8
+service:
+  - mysql
 
 addons:
   apt:
@@ -20,27 +21,27 @@ addons:
 cache:
   directories:
   - $HOME/www
-  - $HOME/.drush
+  - $HOME/.drush/cache/downloads/
 
 before_cache:
   - rm -rf $HOME/www/modules/*
-  - find $HOME/www/sites/*/files/simpletest/* -exec rm -rf {} \;
+  - find $HOME/www/sites/*/settings.php -exec rm -f {} \;
+  - find $HOME/www/sites/*/files/* -exec rm -rf {} \;
 
-install:
-  # Install web server.
+before_install:
   - cp $TRAVIS_BUILD_DIR/.travis/php.ini ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/
   - cp $TRAVIS_BUILD_DIR/.travis/php-fpm.conf ~/.phpenv/versions/$(phpenv version-name)/etc/
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - nginx -c $TRAVIS_BUILD_DIR/.travis/nginx.conf
-  # Download dependencies.
   - wget -P ~/ https://github.com/drush-ops/drush/releases/download/8.0.0-rc3/drush.phar
-  - test ! -d ~/www/core && git clone --depth 1 --branch 8.0.x http://git.drupal.org/project/drupal.git ~/www || true
-  - ln -s $TRAVIS_BUILD_DIR ~/www/modules/key_value
-  # Import the site from cache or install it.
-  - if [ -f ~/.drush/si.sql ]; then mysql -uroot < ~/.drush/si.sql; else php ~/drush.phar --root=$HOME/www --yes site-install --db-url=mysql://root:@127.0.0.1/drupal testing && mysqldump -uroot -A > ~/.drush/si.sql; fi
+  - php ~/drush.phar make --cache --concurrency 4 $TRAVIS_BUILD_DIR/.travis/drupal.make.yml $HOME/www
+  - php ~/drush.phar --root=$HOME/www --yes site-install --db-url=mysql://root:@127.0.0.1/drupal testing
+
+install:
+  - ln -s $TRAVIS_BUILD_DIR ~/www/modules/$PROJECT
 
 script:
-  - cd ~/www && php ./core/scripts/run-tests.sh --verbose --keep-results --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "key_value" | tee /tmp/test.log ; export STATUS_SCRIPT=${PIPESTATUS[0]}
+  - cd ~/www && php ./core/scripts/run-tests.sh --verbose --keep-results --color --concurrency 4 --php `which php` --sqlite /tmp/test.sqlite --url http://localhost:8080 "$PROJECT" | tee /tmp/test.log ; export STATUS_SCRIPT=${PIPESTATUS[0]}
   # Workaround so that we exit with the correct status.
   - STATUS_LOG=$(! egrep -i "([0-9]+ fails)|([0-9]+ exceptions)|(PHP Fatal error)|(FATAL)" /tmp/test.log > /dev/null)$?
   - test $STATUS_SCRIPT -eq 0 && test $STATUS_LOG -eq 0
