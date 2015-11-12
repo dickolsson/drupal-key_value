@@ -20,7 +20,6 @@ addons:
 
 cache:
   directories:
-  - $HOME/www
   - $HOME/.drush/cache/download
 
 before_cache:
