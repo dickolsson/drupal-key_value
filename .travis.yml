@@ -7,7 +7,12 @@ php:
   - 5.6
   - 7.0
 
-service:
+matrix:
+  allow_failures:
+    - php: 7.0
+  fast_finish: true
+
+services:
   - mysql
 
 addons:
