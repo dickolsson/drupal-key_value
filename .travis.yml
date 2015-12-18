@@ -7,6 +7,10 @@ php:
   - 5.6
   - 7.0
 
+env:
+  - MAKE_FILE=drupal-8.0.x.make.yml
+  - MAKE_FILE=drupal-8.1.x.make.yml
+
 matrix:
   allow_failures:
     - php: 7.0
@@ -30,7 +34,7 @@ before_install:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - nginx -c $TRAVIS_BUILD_DIR/.travis/nginx.conf
   - wget -P ~/ https://github.com/drush-ops/drush/releases/download/8.0.0-rc3/drush.phar && chmod +x ~/drush.phar
-  - php ~/drush.phar make $TRAVIS_BUILD_DIR/.travis/drupal.make.yml $HOME/www
+  - php ~/drush.phar make $TRAVIS_BUILD_DIR/.travis/$MAKE_FILE $HOME/www
   - php ~/drush.phar --root=$HOME/www --yes site-install --sites-subdir=8080.localhost --db-url=mysql://root:@127.0.0.1/localhost8080 testing
 
 install:
