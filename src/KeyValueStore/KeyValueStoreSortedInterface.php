@@ -12,9 +12,10 @@ interface KeyValueStoreSortedInterface {
   /**
    * @param float $start
    * @param float $stop
+   * @param boolean $inclusive
    *
    * @return array
    */
-  public function getRange($start, $stop = NULL);
+  public function getRange($start, $stop = NULL, $inclusive = TRUE);
 
 }

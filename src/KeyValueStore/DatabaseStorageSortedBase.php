@@ -48,14 +48,14 @@ abstract class DatabaseStorageSortedBase implements KeyValueStoreSortedInterface
   /**
    * {@inheritdoc}
    */
-  public function getRange($start, $stop = NULL) {
+  public function getRange($start, $stop = NULL, $inclusive = TRUE) {
     $query = $this->connection->select($this->table, 't')
       ->fields('t', array('value'))
       ->condition('collection', $this->collection)
-      ->condition('name', $start, '>=');
+      ->condition('name', $start, $inclusive ? '>=' : '>');
 
     if ($stop !== NULL) {
-      $query->condition('name', $stop, '<=');
+      $query->condition('name', $stop, $inclusive ? '<=' : '<');
     }
     $result = $query->orderBy('name', 'ASC')->execute();
 

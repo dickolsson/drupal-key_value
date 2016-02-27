@@ -19,7 +19,7 @@ interface KeyValueStoreSortedSetInterface extends KeyValueStoreSortedInterface {
    * @param float $start
    * @param float $stop
    */
-  public function deleteRange($start, $stop);
+  public function deleteRange($start, $stop, $inclusive = TRUE);
 
   /**
    * @return float

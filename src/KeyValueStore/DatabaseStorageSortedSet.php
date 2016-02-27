@@ -36,7 +36,7 @@ class DatabaseStorageSortedSet extends DatabaseStorageSortedBase implements KeyV
   /**
    * {@inheritdoc}
    */
-  public function deleteRange($start, $stop) {
+  public function deleteRange($start, $stop, $inclusive = TRUE) {
     // @todo
   }
 
