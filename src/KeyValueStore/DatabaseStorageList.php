@@ -22,7 +22,7 @@ class DatabaseStorageList extends DatabaseStorageSortedBase implements KeyValueS
    * {@inheritdoc}
    */
   public function push($value) {
-    $this->pushMultiple(array($value));
+    $this->pushMultiple([$value]);
   }
 
   /**
@@ -34,9 +34,9 @@ class DatabaseStorageList extends DatabaseStorageSortedBase implements KeyValueS
     foreach ($values as $value) {
       $sub_query = $this->connection->select($this->table, 't')
         ->condition('t.collection', $this->collection);
-      $sub_query->addExpression(':collection', 'collection', array(':collection' => $this->collection));
+      $sub_query->addExpression(':collection', 'collection', [':collection' => $this->collection]);
       $sub_query->addExpression('IFNULL(MAX(t.name) + 1, 0)', 'name');
-      $sub_query->addExpression(':value', 'value', array(':value' => $this->serializer->encode($value)));
+      $sub_query->addExpression(':value', 'value', [':value' => $this->serializer->encode($value)]);
 
       $this->connection->insert($this->table)
         ->from($sub_query)
@@ -49,9 +49,9 @@ class DatabaseStorageList extends DatabaseStorageSortedBase implements KeyValueS
    */
   public function set($key, $value) {
     $this->connection->update($this->table)
-      ->fields(array(
+      ->fields([
         'value' => $this->serializer->encode($value)
-      ))
+      ])
       ->condition('collection', $this->collection)
       ->condition('name', (int) $key)
       ->execute();

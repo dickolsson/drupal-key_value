@@ -23,12 +23,12 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
     $key0 = $this->newKey();
     $value0 = $this->randomMachineName();
     $this->store->add($key0, $value0);
-    $this->assertPairs(array($key0 => $value0));
+    $this->assertPairs([$key0 => $value0]);
 
     $key1 = $this->newKey();
     $value1 = $this->randomMachineName();
     $this->store->add($key1, $value1);
-    $this->assertPairs(array($key1 => $value1));
+    $this->assertPairs([$key1 => $value1]);
 
     // Ensure it works to add sets with the same score.
     $key2 = $this->newKey();
@@ -37,37 +37,37 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
     $value3 = $this->randomMachineName();
     $value4 = $this->randomMachineName();
     $value5 = $this->randomMachineName();
-    $this->store->addMultiple(array(
-      array($key2 => $value2),
-      array($key2 => $value3),
-      array($key2 => $value4),
-      array($key3 => $value5),
-    ));
+    $this->store->addMultiple([
+      [$key2 => $value2],
+      [$key2 => $value3],
+      [$key2 => $value4],
+      [$key3 => $value5],
+    ]);
 
     $count = $this->store->getCount();
     $this->assertEqual($count, 6, 'The count method returned correct count.');
 
     $value = $this->store->getRange($key1, $key2);
-    $this->assertIdentical($value, array($value1, $value2, $value3, $value4));
+    $this->assertIdentical($value, [$value1, $value2, $value3, $value4]);
 
     $value = $this->store->getRange($key1, NULL);
-    $this->assertIdentical($value, array($value1, $value2, $value3, $value4, $value5));
+    $this->assertIdentical($value, [$value1, $value2, $value3, $value4, $value5]);
 
     $value = $this->store->getRange($key1, NULL, FALSE);
-    $this->assertIdentical($value, array($value2, $value3, $value4, $value5));
+    $this->assertIdentical($value, [$value2, $value3, $value4, $value5]);
 
     $value = $this->store->getRange($key1, $key3, FALSE);
-    $this->assertIdentical($value, array($value2, $value3, $value4));
+    $this->assertIdentical($value, [$value2, $value3, $value4]);
 
     $new1 = $this->newKey();
     $this->store->add($new1, $value1);
 
     $value = $this->store->getRange($new1, $new1);
-    $this->assertIdentical($value, array($value1), 'Member was successfully updated.');
+    $this->assertIdentical($value, [$value1], 'Member was successfully updated.');
     $this->assertRecords(6, 'Correct number of record in the collection after member update.');
 
     $value = $this->store->getRange($key1, $key1);
-    $this->assertIdentical($value, array(), 'Non-existing range returned empty array.');
+    $this->assertIdentical($value, [], 'Non-existing range returned empty array.');
 
     $max_score = $this->store->getMaxScore();
     $this->assertEqual($max_score, $new1, 'The getMaxScore method returned correct score.');

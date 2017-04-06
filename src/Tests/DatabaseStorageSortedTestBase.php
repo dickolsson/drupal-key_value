@@ -6,7 +6,7 @@ use \Drupal\KernelTests\KernelTestBase;
 
 abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
 
-  static public $modules = array('serialization', 'key_value');
+  static public $modules = ['serialization', 'key_value'];
 
   /**
    * @var string
@@ -30,7 +30,7 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
 
   public function setUp() {
     parent::setUp();
-    $this->installSchema('key_value', array('key_value_sorted'));
+    $this->installSchema('key_value', ['key_value_sorted']);
 
     $this->collection = $this->randomMachineName();
     $this->serializer = \Drupal::service('serialization.phpserialize');
@@ -39,7 +39,7 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
 
   public function assertPairs($expected_pairs) {
     $result = $this->connection->select('key_value_sorted', 't')
-      ->fields('t', array('name', 'value'))
+      ->fields('t', ['name', 'value'])
       ->condition('collection', $this->collection)
       ->condition('name', array_keys($expected_pairs), 'IN')
       ->execute()

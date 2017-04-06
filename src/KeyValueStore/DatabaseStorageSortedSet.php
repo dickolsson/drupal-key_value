@@ -8,7 +8,7 @@ class DatabaseStorageSortedSet extends DatabaseStorageSortedBase implements KeyV
    * {@inheritdoc}
    */
   public function add($score, $member) {
-    $this->addMultiple(array(array($score => $member)));
+    $this->addMultiple([[$score => $member]]);
   }
 
   /**
@@ -21,11 +21,11 @@ class DatabaseStorageSortedSet extends DatabaseStorageSortedBase implements KeyV
       foreach ($pair as $score => $member) {
         $encoded_member = $this->serializer->encode($member);
         $this->connection->merge($this->table)
-          ->fields(array(
+          ->fields([
             'collection' => $this->collection,
             'name' => $score,
             'value' => $encoded_member,
-          ))
+          ])
           ->condition('collection', $this->collection)
           ->condition('value', $encoded_member)
           ->execute();
