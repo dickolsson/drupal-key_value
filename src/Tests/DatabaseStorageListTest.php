@@ -35,20 +35,20 @@ class DatabaseStorageListTest extends DatabaseStorageSortedTestBase {
     $this->assertPairs([2 => $value2, 3 => $value3, 4 => $value4]);
 
     $count = $this->store->getCount();
-    $this->assertEqual($count, 5, 'The count method returned correct count.');
+    $this->assertEquals(5, $count, 'The count method returned correct count.');
 
     $value = $this->store->getRange(2, 4);
-    $this->assertIdentical($value, [$value2, $value3, $value4]);
+    $this->assertSame($value, [$value2, $value3, $value4]);
 
     $new3 = $this->randomMachineName();
     $this->store->set(3, $new3);
     $this->assertPairs([3 => $new3]);
 
     $value = $this->store->getRange(3, 3);
-    $this->assertIdentical($value, [$new3], 'Value was successfully updated.');
+    $this->assertSame($value, [$new3], 'Value was successfully updated.');
     $this->assertRecords(5, 'Correct number of record in the collection after member update.');
 
     $value = $this->store->getRange(6, 10);
-    $this->assertIdentical($value, [], 'Non-existing range returned empty array.');
+    $this->assertSame($value, [], 'Non-existing range returned empty array.');
   }
 }

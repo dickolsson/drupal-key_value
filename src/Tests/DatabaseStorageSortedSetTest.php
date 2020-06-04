@@ -45,34 +45,34 @@ class DatabaseStorageSortedSetTest extends DatabaseStorageSortedTestBase {
     ]);
 
     $count = $this->store->getCount();
-    $this->assertEqual($count, 6, 'The count method returned correct count.');
+    $this->assertEquals(6, $count, 'The count method returned correct count.');
 
     $value = $this->store->getRange($key1, $key2);
-    $this->assertIdentical($value, [$value1, $value2, $value3, $value4]);
+    $this->assertSame($value, [$value1, $value2, $value3, $value4]);
 
     $value = $this->store->getRange($key1, NULL);
-    $this->assertIdentical($value, [$value1, $value2, $value3, $value4, $value5]);
+    $this->assertSame($value, [$value1, $value2, $value3, $value4, $value5]);
 
     $value = $this->store->getRange($key1, NULL, FALSE);
-    $this->assertIdentical($value, [$value2, $value3, $value4, $value5]);
+    $this->assertSame($value, [$value2, $value3, $value4, $value5]);
 
     $value = $this->store->getRange($key1, $key3, FALSE);
-    $this->assertIdentical($value, [$value2, $value3, $value4]);
+    $this->assertSame($value, [$value2, $value3, $value4]);
 
     $new1 = $this->newKey();
     $this->store->add($new1, $value1);
 
     $value = $this->store->getRange($new1, $new1);
-    $this->assertIdentical($value, [$value1], 'Member was successfully updated.');
+    $this->assertSame($value, [$value1], 'Member was successfully updated.');
     $this->assertRecords(6, 'Correct number of record in the collection after member update.');
 
     $value = $this->store->getRange($key1, $key1);
-    $this->assertIdentical($value, [], 'Non-existing range returned empty array.');
+    $this->assertSame($value, [], 'Non-existing range returned empty array.');
 
     $max_score = $this->store->getMaxScore();
-    $this->assertEqual($max_score, $new1, 'The getMaxScore method returned correct score.');
+    $this->assertEquals($new1, $max_score, 'The getMaxScore method returned correct score.');
 
     $min_score = $this->store->getMinScore();
-    $this->assertEqual($min_score, $key0, 'The getMinScore method returned correct score.');
+    $this->assertEquals($key0, $min_score, 'The getMinScore method returned correct score.');
   }
 }

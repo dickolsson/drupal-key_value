@@ -46,9 +46,9 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
       ->fetchAllAssoc('name');
 
     $expected_count = count($expected_pairs);
-    $this->assertIdentical(count($result), $expected_count, "Query affected $expected_count records.");
+    $this->assertSame(count($result), $expected_count, "Query affected $expected_count records.");
     foreach ($expected_pairs as $key => $value) {
-      $this->assertIdentical($this->serializer->decode($result[$key]->value), $value, "Key $key have value $value");
+      $this->assertSame($this->serializer->decode($result[$key]->value), $value, "Key $key have value $value");
     }
   }
 
@@ -59,7 +59,7 @@ abstract class DatabaseStorageSortedTestBase extends KernelTestBase {
       ->countQuery()
       ->execute()
       ->fetchField();
-    $this->assertEqual($count, $expected, $message ? $message : "There are $expected records.");
+    $this->assertEquals($expected, $count, $message ? $message : "There are $expected records.");
   }
 
   public function newKey() {
